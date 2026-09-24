@@ -16,7 +16,7 @@ public class Supermercado {
         this.direccion = direccion;
         this.telefono = telefono;
 
-        //Iniciar lista
+        //Iniciar listas
         listaClientes= new ArrayList<>();
         listaCompras= new ArrayList<>();
         listaProductos= new ArrayList<>();
@@ -78,5 +78,72 @@ public class Supermercado {
                 ", Lista Clientes: "+listaClientes+
                 ", Lista Compras: "+listaCompras+
                 ", Lista Productos: "+listaProductos;
+    }
+
+    //==== Clientes ====
+    //Verificar Cliente
+    public boolean verificarClientes(int documento){
+        boolean existe= false;
+        for (Cliente cliente: listaClientes){
+            if (cliente.getDocumento()== documento){
+                existe= true;
+                break;
+            }
+        }
+        return existe;
+    }
+
+    //Agregar Cliente
+    public  boolean  agregarCliente(Cliente cliente){
+        boolean agregado= false;
+        boolean existe= verificarClientes(cliente.getDocumento());
+        if (existe==false){
+            listaClientes.add(cliente);
+            agregado= true;
+        }
+        return  agregado;
+    }
+
+    //Actualizar cliente
+    public boolean actualizarCliente(int documento, Cliente clienteActualizado){
+        boolean estaActualizado= false;
+        for (Cliente cliente: listaClientes){
+            if (cliente.getDocumento()== documento){
+                cliente.setNombre(clienteActualizado.getNombre());
+                cliente.setTelefono(clienteActualizado.getTelefono());
+                cliente.setCorreo(clienteActualizado.getCorreo());
+
+                estaActualizado= true;
+                break;
+            }
+        }
+        return estaActualizado;
+    }
+
+    //Historial de compras del Cliente
+    public List<Compra> mostrarHistorialCliente(int documento){
+        boolean existe= verificarClientes(documento);
+        List<Compra> historialCliente= new ArrayList<>();
+        if (existe== true){
+            for (Cliente cliente: listaClientes){
+                if (cliente.getDocumento()== documento){
+                    historialCliente= cliente.getListaCompras();
+                }
+            }
+        }
+        return historialCliente;
+    }
+
+    //Eliminar Cliente
+    public boolean eliminarCliente(int documento){
+        boolean esEliminado= false;
+        for (Cliente cliente: listaClientes){
+            if (cliente.getDocumento()== documento){
+                listaClientes.remove(cliente);
+                esEliminado= true;
+                break;
+            }
+        }
+        return esEliminado;
     }
 }

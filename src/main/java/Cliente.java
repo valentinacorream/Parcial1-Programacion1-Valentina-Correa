@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.List;
+
 public class Cliente {
 
     private String nombre;
@@ -5,11 +8,17 @@ public class Cliente {
     private int telefono;
     private String correo;
 
+    //Crear lista
+    private List<Compra> listaCompras;
+
     public Cliente(String nombre, int documento, int telefono, String correo) {
         this.nombre = nombre;
         this.documento = documento;
         this.telefono = telefono;
         this.correo = correo;
+
+        //Iniciar lista
+        listaCompras= new ArrayList<>();
     }
 
     public String getNombre() {
@@ -44,11 +53,20 @@ public class Cliente {
         this.correo = correo;
     }
 
+    public List<Compra> getListaCompras() {
+        return listaCompras;
+    }
+
+    public void setListaCompras(List<Compra> listaCompras) {
+        this.listaCompras = listaCompras;
+    }
+
     @Override
     public String toString() {
         return "Nombre: " + nombre +
                 ", Documento: " + documento +
                 ", Teléfono: " + telefono +
-                ", Correo: " + correo;
+                ", Correo: " + correo+
+                ", Lista Compras: "+listaCompras;
     }
 }

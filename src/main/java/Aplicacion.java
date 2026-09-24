@@ -1,3 +1,4 @@
+import java.util.List;
 import java.util.Scanner;
 
 public class Aplicacion {
@@ -34,18 +35,84 @@ public class Aplicacion {
 
             switch (opcion){
                 case 1:
+                    System.out.println("\n----- Agregar Cliente -----");
+                    System.out.println("Nombre: ");
+                    String nombre= sc.nextLine();
+
+                    System.out.println("Documento: ");
+                    int documento= sc.nextInt();
+
+                    System.out.println("Teléfono: ");
+                    int telefono= sc.nextInt();
+
+                    System.out.println("Correo: ");
+                    String correo= sc.nextLine();
+
+                    Cliente cliente= new Cliente(nombre, documento, telefono, correo);
+                    if (supermercado.agregarCliente(cliente)){
+                        System.out.println("El cliente ha sido agregado correctamente: ");
+                    }else {
+                        System.out.println("El cliente ya existe.");
+                    }
+
                     break;
 
                 case 2:
+                    System.out.println("\n----- Actualizar Cliente -----");
+                    System.out.println("Documento: ");
+                    int documentoActualizar= sc.nextInt();
+
+                    System.out.println("Nuevo Nombre: ");
+                    String nuevoNombre= sc.nextLine();
+
+                    System.out.println("Nuevo Teléfono: ");
+                    int nuevoTelefono= sc.nextInt();
+
+                    System.out.println("Nuevo Correo: ");
+                    String nuevoCorreo= sc.nextLine();
+
+                    Cliente clienteActualizado= new Cliente(nuevoNombre, documentoActualizar, nuevoTelefono, nuevoCorreo);
+
+                    if (supermercado.actualizarCliente(documentoActualizar, clienteActualizado)){
+                        System.out.println("Cliente actualizado correctamente. ");
+                    } else {
+                        System.out.println("El cliente ya existe.");
+                    }
+
                     break;
 
                 case 3:
+                    System.out.println("\n----- Historial de Compras de un Cliente -----");
+                    System.out.println("Documento del cliente: ");
+                    int documentoHistorial= sc.nextInt();
+
+                    sc.nextLine();
+
+                    List<Compra> historial= supermercado.mostrarHistorialCliente(documentoHistorial);
+                    if (!historial.isEmpty()){
+                        System.out.println(historial);
+                    } else {
+                        System.out.println("El cliente no tiene compras registradas.");
+                    }
                     break;
 
                 case 4:
+                    System.out.println("\n----- Eliminar Cliente -----");
+                    System.out.println("Documento del cliente a eliminar: ");
+                    int documentoEliminado= sc.nextInt();
+
+                    if (supermercado.eliminarCliente(documentoEliminado)){
+                        System.out.println("El cliente ha sido eliminado correctamente.");
+                    }else {
+                        System.out.println("Cliente no encontrado.");
+                    }
                     break;
 
                 case 5:
+                    System.out.println("\n----- Lista de Clientes -----");
+                    for (Cliente clienteLista: supermercado.getListaClientes()){
+                        System.out.println(clienteLista);
+                    }
                     break;
 
                 case 6:
