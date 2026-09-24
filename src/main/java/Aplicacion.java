@@ -32,6 +32,7 @@ public class Aplicacion {
             System.out.println("------------------------------------------------");
             System.out.println("14. Salir.");
 
+            System.out.println("Seleccione una opción: ");
             opcion= sc.nextInt();
             sc.nextLine();
 
