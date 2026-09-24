@@ -45,6 +45,7 @@ public class Aplicacion {
 
                     System.out.println("Teléfono: ");
                     int telefono= sc.nextInt();
+                    sc.nextLine();
 
                     System.out.println("Correo: ");
                     String correo= sc.nextLine();
@@ -68,6 +69,7 @@ public class Aplicacion {
 
                     System.out.println("Nuevo Teléfono: ");
                     int nuevoTelefono= sc.nextInt();
+                    sc.nextLine();
 
                     System.out.println("Nuevo Correo: ");
                     String nuevoCorreo= sc.nextLine();
@@ -134,7 +136,7 @@ public class Aplicacion {
 
                     Producto producto= new Producto(codigo, nombreProducto, precio, cantidadInicial, categoria);
 
-                    if (supermercado.agregarProduto(producto)) {
+                    if (supermercado.agregarProducto(producto)) {
                         System.out.println("El producto se registró correctamente: ");
                     }else {
                         System.out.println("El producto ya existe.");
@@ -146,6 +148,32 @@ public class Aplicacion {
                     System.out.println("\n----- Disponibilidad de un Producto -----");
                     System.out.println("Código del Producto: ");
                     String codigoConsulta= sc.nextLine();
+
+                    System.out.println("Cantidad que desea consultar: ");
+                    int cantidadRequerida= sc.nextInt();
+                    sc.nextLine();
+
+                    boolean encontrado = false;
+
+                    for (Producto productoConsulta : supermercado.getListaProductos()) {
+                        if (productoConsulta.getCodigo().equalsIgnoreCase(codigoConsulta)) {
+
+                            encontrado = true;
+
+                            if (supermercado.validarDisponibilidad(cantidadRequerida, productoConsulta)) {
+                                System.out.println("Hay disponibilidad del producto.");
+                            } else {
+                                System.out.println("No hay suficiente cantidad disponible.");
+                            }
+
+                            break;
+                        }
+                    }
+
+                    if (!encontrado) {
+                        System.out.println("El producto no existe.");
+                    }
+
 
                     break;
 
@@ -166,6 +194,12 @@ public class Aplicacion {
                     Categoria nuevaCategoria= seleccionarCategoria(sc);
 
                     Producto productoActualizado= new Producto(codigoActualizar, nombreNuevo, precioNuevo, cantidadNueva,nuevaCategoria);
+
+                    if (supermercado.actualizarProducto(codigoActualizar, productoActualizado)) {
+                        System.out.println("Producto actualizado correctamente.");
+                    } else {
+                        System.out.println("Producto no encontrado.");
+                    }
                     break;
 
                 case 9:
@@ -188,6 +222,52 @@ public class Aplicacion {
                     break;
 
                 case 11:
+                    System.out.println("\n----- Realizar Compra -----");
+                    System.out.println("Documento: ");
+                    int documentoCompra= sc.nextInt();
+                    sc.nextLine();
+
+                    System.out.println("Código de la compra: ");
+                    String codigoCompra= sc.nextLine();
+
+                    MetodoPago metodoPago= seleccionarMetodoPago(sc);
+
+                    Compra compra= new Compra(codigoCompra, java.time.LocalDate.now(), 0, metodoPago);
+
+                    if (supermercado.realizarCompra(documentoCompra, compra)) {
+
+                        System.out.println("¿Cuántos productos desea agregar?");
+                        int cantidadProductos = sc.nextInt();
+                        sc.nextLine();
+
+                        for (int i = 0; i < cantidadProductos; i++) {
+                            System.out.println("Código del producto: ");
+                            String codigoProducto = sc.nextLine();
+
+                            System.out.println("Cantidad de ese producto: ");
+                            int cantidad = sc.nextInt();
+                            sc.nextLine();
+
+                            if (supermercado.agregarProductoCompra(codigoCompra, codigoProducto, cantidad)) {
+                                System.out.println("Producto agregado correctamente.");
+                            } else {
+                                System.out.println("No se pudo agregar el producto.");
+                            }
+                        }
+
+                        double total = supermercado.calcularValorTotal(compra);
+                        System.out.println("Valor Total de la Compra: " + total);
+
+                    } else {
+                        System.out.println("No se pudo realizar la compra.");
+                    }
+                    break;
+
+                case 12:
+                    System.out.println("\n----- Historial General de Compras ----");
+                    for (Compra compraLista : supermercado.getListaCompras()) {
+                        System.out.println(compraLista);
+                    }
                     break;
 
                 case 0:
@@ -229,6 +309,32 @@ public class Aplicacion {
             default:
                 System.out.println("Opción no válida... Se asigna Alimentos por defecto.");
                 return Categoria.ALIMENTOS;
+        }
+    }
+
+    public static MetodoPago seleccionarMetodoPago(Scanner sc){
+        System.out.println("Método de pago:");
+        System.out.println("1. Tarjeta.");
+        System.out.println("2. Transferencia.");
+        System.out.println("3. Efectivo.");
+
+        System.out.println("Seleccione la opción: ");
+        int opcionPago = sc.nextInt();
+        sc.nextLine();
+
+        switch (opcionPago) {
+            case 1:
+                return MetodoPago.TARJETA;
+
+            case 2:
+                return MetodoPago.TRANSFERENCIA;
+
+            case 3:
+                return MetodoPago.EFECTIVO;
+
+            default:
+                System.out.println("Opción no válida. Se asigna Efectivo por defecto.");
+                return MetodoPago.EFECTIVO;
         }
     }
 }

@@ -161,7 +161,7 @@ public class Supermercado {
     }
 
     //Agregar Producto
-    public  boolean  agregarProduto(Producto producto){
+    public  boolean  agregarProducto(Producto producto){
         boolean agregado= false;
         boolean existe= verificarProductos(producto.getCodigo());
         if (existe==false){
@@ -228,4 +228,68 @@ public class Supermercado {
         }
         return esEliminado;
     }
+
+    //==== Compras ====
+    //Verificar Compra
+    public boolean verificarCompra(String codigo){
+        boolean existe= false;
+        for (Compra compra: listaCompras){
+            if (compra.getCodigo().equalsIgnoreCase(codigo)){
+                existe= true;
+                break;
+            }
+        }
+        return  existe;
+    }
+
+    //Realizar Compra
+    public boolean realizarCompra(int documento, Compra compra){
+        boolean realizada= false;
+        boolean existe= verificarCompra(compra.getCodigo());
+        if (existe==false) {
+            for (Cliente cliente : listaClientes) {
+                if (cliente.getDocumento() == documento) {
+                    listaCompras.add(compra);
+                    cliente.getListaCompras().add(compra);
+                    realizada = true;
+                    break;
+                }
+            }
+        }
+        return realizada;
+    }
+
+    //Agregar producto a la compra
+    public boolean agregarProductoCompra(String codigoCompra, String codigoProducto, int cantidad){
+        boolean productoAgregado= false;
+        for (Compra compra: listaCompras){
+            if (compra.getCodigo().equalsIgnoreCase(codigoCompra)){
+                for (Producto producto: listaProductos){
+                    if (producto.getCodigo().equalsIgnoreCase(codigoProducto)){
+                        if (validarDisponibilidad(cantidad, producto)){
+                            for (int i=0; i < cantidad; i++){
+                                compra.getListaProductos().add(producto);
+                            }
+                            descontarCantidad(cantidad, codigoProducto);
+                            productoAgregado= true;
+                        }
+                        break;
+                    }
+                }
+                break;
+            }
+        }
+        return productoAgregado;
+    }
+
+    //Calcular total de la compra
+    public double calcularValorTotal(Compra compra){
+        double total= 0;
+        for (Producto producto: compra.getListaProductos()){
+            total+= producto.getPrecioUnitario();
+        }
+        compra.setValorTotal(total);
+        return total;
+    }
+
 }
