@@ -11,6 +11,7 @@ public class Producto {
         this.nombre = nombre;
         this.precioUnitario = precioUnitario;
         this.cantidadDisponible = cantidadDisponible;
+        this.categoria = categoria;
     }
 
     public String getCodigo() {

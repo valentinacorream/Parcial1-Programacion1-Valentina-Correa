@@ -1,3 +1,4 @@
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -289,6 +290,19 @@ public class Supermercado {
             total+= producto.getPrecioUnitario();
         }
         compra.setValorTotal(total);
+        return total;
+    }
+
+    //Calcular ventas de una fecha determinada
+    public double calcularVentasPorFecha(LocalDate fecha) {
+        double total = 0;
+
+        for (Compra compra : listaCompras) {
+            if (compra.getFechaRealizacion().equals(fecha)) {
+                total += compra.getValorTotal();
+            }
+        }
+
         return total;
     }
 

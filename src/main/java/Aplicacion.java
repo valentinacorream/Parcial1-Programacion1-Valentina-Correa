@@ -27,9 +27,10 @@ public class Aplicacion {
             System.out.println("------------------------------------------------");
             System.out.println("11. Realizar Compra.");
             System.out.println("12. Ver Historial General de Compras.");
+            System.out.println("13. Consultar ventas por fecha.");
 
             System.out.println("------------------------------------------------");
-            System.out.println("0. Salir.");
+            System.out.println("14. Salir.");
 
             opcion= sc.nextInt();
             sc.nextLine();
@@ -63,6 +64,7 @@ public class Aplicacion {
                     System.out.println("\n----- Actualizar Cliente -----");
                     System.out.println("Documento: ");
                     int documentoActualizar= sc.nextInt();
+                    sc.nextLine();
 
                     System.out.println("Nuevo Nombre: ");
                     String nuevoNombre= sc.nextLine();
@@ -270,14 +272,26 @@ public class Aplicacion {
                     }
                     break;
 
-                case 0:
+                case 13:
+                    System.out.println("\n----- Ventas por Fecha -----");
+                    System.out.println("Ingrese la fecha (AAAA-MM-DD): ");
+
+                    String fechaTexto = sc.nextLine();
+                    java.time.LocalDate fecha = java.time.LocalDate.parse(fechaTexto);
+
+                    double totalVentas = supermercado.calcularVentasPorFecha(fecha);
+
+                    System.out.println("Valor total vendido el " + fecha + ": $" + totalVentas);
+                    break;
+
+                case 14:
                     System.out.println("Adiós.....");
                     break;
 
                 default:
                     System.out.println("Opción no válida... Intente de nuevo.");
             }
-        } while (opcion!=0);
+        } while (opcion!=14);
 
         sc.close();
     }
