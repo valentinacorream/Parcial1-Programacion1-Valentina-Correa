@@ -4,8 +4,9 @@ public class Producto {
     private String nombre;
     private double precioUnitario;
     private int cantidadDisponible;
+    private Categoria categoria;
 
-    public Producto(String codigo, String nombre, double precioUnitario, int cantidadDisponible) {
+    public Producto(String codigo, String nombre, double precioUnitario, int cantidadDisponible, Categoria categoria) {
         this.codigo = codigo;
         this.nombre = nombre;
         this.precioUnitario = precioUnitario;
@@ -44,11 +45,20 @@ public class Producto {
         this.cantidadDisponible = cantidadDisponible;
     }
 
+    public Categoria getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(Categoria categoria) {
+        this.categoria = categoria;
+    }
+
     @Override
     public String toString() {
         return "Codigo: " + codigo +
                 ", Nombre: " + nombre +
                 ", Preci oUnitario: " + precioUnitario +
-                ", Cantidad Disponible=" + cantidadDisponible;
+                ", Cantidad Disponible: " + cantidadDisponible+
+                ", Categoria: "+categoria;
     }
 }

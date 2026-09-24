@@ -1,12 +1,25 @@
+import java.util.ArrayList;
+import java.util.List;
+
 public class Supermercado {
     private String nombre;
     private String direccion;
     private int telefono;
 
+    //Creación de listas
+    private List<Cliente> listaClientes;
+    private List<Compra> listaCompras;
+    private List<Producto> listaProductos;
+
     public Supermercado(String nombre, String direccion, int telefono) {
         this.nombre = nombre;
         this.direccion = direccion;
         this.telefono = telefono;
+
+        //Iniciar lista
+        listaClientes= new ArrayList<>();
+        listaCompras= new ArrayList<>();
+        listaProductos= new ArrayList<>();
     }
 
     public String getNombre() {
@@ -33,10 +46,37 @@ public class Supermercado {
         this.telefono = telefono;
     }
 
+    public List<Cliente> getListaClientes() {
+        return listaClientes;
+    }
+
+    public void setListaClientes(List<Cliente> listaClientes) {
+        this.listaClientes = listaClientes;
+    }
+
+    public List<Compra> getListaCompras() {
+        return listaCompras;
+    }
+
+    public void setListaCompras(List<Compra> listaCompras) {
+        this.listaCompras = listaCompras;
+    }
+
+    public List<Producto> getListaProductos() {
+        return listaProductos;
+    }
+
+    public void setListaProductos(List<Producto> listaProductos) {
+        this.listaProductos = listaProductos;
+    }
+
     @Override
     public String toString() {
         return "Nombre: " + nombre+
                 ", Direccion: " + direccion+
-                ", Telefono: " + telefono;
+                ", Telefono: " + telefono+
+                ", Lista Clientes: "+listaClientes+
+                ", Lista Compras: "+listaCompras+
+                ", Lista Productos: "+listaProductos;
     }
 }
