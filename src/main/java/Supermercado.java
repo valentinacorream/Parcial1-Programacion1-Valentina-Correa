@@ -146,4 +146,86 @@ public class Supermercado {
         }
         return esEliminado;
     }
+
+    //==== Productos ====
+    //Verificar productos
+    public boolean verificarProductos(String codigo){
+        boolean existe= false;
+        for (Producto produto: listaProductos){
+            if (produto.getCodigo().equalsIgnoreCase(codigo)){
+                existe= true;
+                break;
+            }
+        }
+        return existe;
+    }
+
+    //Agregar Producto
+    public  boolean  agregarProduto(Producto producto){
+        boolean agregado= false;
+        boolean existe= verificarProductos(producto.getCodigo());
+        if (existe==false){
+            listaProductos.add(producto);
+            agregado= true;
+        }
+        return  agregado;
+    }
+
+    //Validar disponibilidad de productos
+    public boolean validarDisponibilidad(int cantidadRequerida, Producto productoDisponible){
+        boolean hayDisponible= false;
+            for (Producto producto : listaProductos) {
+                if (producto.getCodigo().equalsIgnoreCase(productoDisponible.getCodigo())) {
+                    if (producto.getCantidadDisponible() >= cantidadRequerida) {
+                        hayDisponible = true;
+                    }
+                    break;
+                }
+            }
+        return hayDisponible;
+    }
+
+    public boolean descontarCantidad(int cantidadVendida, String codigo){
+        boolean descontado= false;
+        for (Producto producto: listaProductos){
+            if (producto.getCodigo().equalsIgnoreCase(codigo)){
+                if (producto.getCantidadDisponible() >= cantidadVendida){
+                    int nuevaDisponibilidad= producto.getCantidadDisponible() - cantidadVendida;
+                    producto.setCantidadDisponible(nuevaDisponibilidad);
+                    descontado= true;
+                }
+                break;
+            }
+        }
+        return descontado;
+    }
+
+    //Actualizar Productos
+    public boolean actualizarProducto(String codigo, Producto productoActualizado){
+        boolean estaActualizado= false;
+        for (Producto producto: listaProductos){
+            if (producto.getCodigo().equalsIgnoreCase(codigo)){
+                producto.setNombre(productoActualizado.getNombre());
+                producto.setPrecioUnitario(productoActualizado.getPrecioUnitario());
+                producto.setCantidadDisponible(productoActualizado.getCantidadDisponible());
+
+                estaActualizado= true;
+                break;
+            }
+        }
+        return estaActualizado;
+    }
+
+    //Eliminar producto
+    public boolean eliminarProducto(String codigo){
+        boolean esEliminado= false;
+        for (Producto producto: listaProductos){
+            if (producto.getCodigo().equalsIgnoreCase(codigo)){
+                listaProductos.remove(producto);
+                esEliminado= true;
+                break;
+            }
+        }
+        return esEliminado;
+    }
 }

@@ -19,13 +19,14 @@ public class Aplicacion {
 
             System.out.println("------------------------------------------------");
             System.out.println("6. Agregar Producto.");
-            System.out.println("7. Actuallizar Producto.");
-            System.out.println("8. Eliminar Producto.");
-            System.out.println("9. Mostrar Productos");
+            System.out.println("7. Consultar Disponibilidad de un Producto.");
+            System.out.println("8. Actuallizar Producto.");
+            System.out.println("9. Eliminar Producto.");
+            System.out.println("10. Mostrar Productos");
 
             System.out.println("------------------------------------------------");
-            System.out.println("10. Realizar Compra.");
-            System.out.println("11. Ver Historial General de Compras.");
+            System.out.println("11. Realizar Compra.");
+            System.out.println("12. Ver Historial General de Compras.");
 
             System.out.println("------------------------------------------------");
             System.out.println("0. Salir.");
@@ -116,18 +117,74 @@ public class Aplicacion {
                     break;
 
                 case 6:
+                    System.out.println("\n----- Agregar Producto -----");
+                    System.out.println("Código: ");
+                    String codigo= sc.nextLine();
+
+                    System.out.println("Nombre: ");
+                    String nombreProducto= sc.nextLine();
+
+                    System.out.println("Precio Unitario: ");
+                    double precio= sc.nextDouble();
+
+                    System.out.println("Cantidad inicial Disponile: ");
+                    int cantidadInicial= sc.nextInt();
+
+                    Categoria categoria= seleccionarCategoria(sc);
+
+                    Producto producto= new Producto(codigo, nombreProducto, precio, cantidadInicial, categoria);
+
+                    if (supermercado.agregarProduto(producto)) {
+                        System.out.println("El producto se registró correctamente: ");
+                    }else {
+                        System.out.println("El producto ya existe.");
+                    }
+
                     break;
 
                 case 7:
+                    System.out.println("\n----- Disponibilidad de un Producto -----");
+                    System.out.println("Código del Producto: ");
+                    String codigoConsulta= sc.nextLine();
+
                     break;
 
                 case 8:
+                    System.out.println("\n----- Actualizar Producto -----");
+                    System.out.println("Código: ");
+                    String codigoActualizar= sc.nextLine();
+
+                    System.out.println("Nuevo nombre: ");
+                    String nombreNuevo= sc.nextLine();
+
+                    System.out.println("Nuevo precio: ");
+                    double precioNuevo= sc.nextDouble();
+
+                    System.out.println("Nueva Cantidad: ");
+                    int cantidadNueva= sc.nextInt();
+
+                    Categoria nuevaCategoria= seleccionarCategoria(sc);
+
+                    Producto productoActualizado= new Producto(codigoActualizar, nombreNuevo, precioNuevo, cantidadNueva,nuevaCategoria);
                     break;
 
                 case 9:
+                    System.out.println("\n----- Eliminar Producto -----");
+                    System.out.println("Código del producto a eliminar: ");
+                    String codigoEliminado= sc.nextLine();
+
+                    if (supermercado.eliminarProducto(codigoEliminado)){
+                        System.out.println("El producto ha sido eliminado correctamente.");
+                    } else {
+                        System.out.println("Producto no encontrado.");
+                    }
                     break;
 
                 case 10:
+                    System.out.println("\n----- Lista Productos -----");
+                    for (Producto productoLista: supermercado.getListaProductos()) {
+                        System.out.println(productoLista);
+                    }
                     break;
 
                 case 11:
@@ -143,5 +200,35 @@ public class Aplicacion {
         } while (opcion!=0);
 
         sc.close();
+    }
+
+    public static Categoria seleccionarCategoria(Scanner sc){
+        System.out.println("Categoria del producto: ");
+        System.out.println("1. Alimentos.");
+        System.out.println("2. Bebidas.");
+        System.out.println("3. Productos de Aseo.");
+        System.out.println("4. Cuidado Personal.");
+
+        System.out.println("Seleccione la opción: ");
+        int opcionCategoria= sc.nextInt();
+        sc.nextLine();
+
+        switch (opcionCategoria){
+            case 1:
+                return Categoria.ALIMENTOS;
+
+            case 2:
+                return  Categoria.BEBIDAS;
+
+            case 3:
+                return Categoria.PRODUCTOSDEASEO;
+
+            case 4:
+                return Categoria.CUIDADOPERSONAL;
+
+            default:
+                System.out.println("Opción no válida... Se asigna Alimentos por defecto.");
+                return Categoria.ALIMENTOS;
+        }
     }
 }
